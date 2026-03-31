@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fast Video Downloader</title>
+<title>Video Downloader</title>
 
 <style>
 body{
   font-family:Arial;
-  background:linear-gradient(135deg,#000000,#1f1c2c);
+  background:linear-gradient(135deg,#000,#1f1c2c);
   color:white;
   text-align:center;
   padding:20px;
@@ -57,7 +57,7 @@ button{
 </div>
 
 <script>
-async function download(){
+function download(){
   let url = document.getElementById("url").value;
 
   if(!url){
@@ -65,17 +65,10 @@ async function download(){
     return;
   }
 
-  document.getElementById("result").innerHTML = "⏳ Processing...";
+  // Direct redirect to working downloader site
+  let finalUrl = "https://en.savefrom.net/1-youtube-video-downloader/?url=" + encodeURIComponent(url);
 
-  try{
-    let res = await fetch("https://api.vevioz.com/api/button/mp4/" + encodeURIComponent(url));
-    let data = await res.text();
-
-    document.getElementById("result").innerHTML = data;
-
-  } catch(e){
-    document.getElementById("result").innerHTML = "❌ Failed!";
-  }
+  window.open(finalUrl, "_blank");
 }
 </script>
 
