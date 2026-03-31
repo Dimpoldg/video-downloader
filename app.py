@@ -1,8 +1,14 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 import yt_dlp
 
 app = Flask(__name__)
 
+# ✅ Homepage route (VERY IMPORTANT)
+@app.route('/')
+def home():
+    return send_from_directory('.', 'index.html')
+
+# ✅ Download API
 @app.route('/download', methods=['POST'])
 def download():
     data = request.get_json()
@@ -29,5 +35,6 @@ def download():
             "error": str(e)
         })
 
+# ✅ Render ke liye correct run
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=10000)
