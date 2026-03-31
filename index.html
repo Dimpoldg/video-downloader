@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Free Video Downloader - HD Video Download</title>
+<title>Free Video Downloader - HD Fast Download</title>
 
-<meta name="description" content="Download videos from multiple platforms in HD quality. Fast, free and secure video downloader.">
-<meta name="keywords" content="video downloader, free video download, HD video downloader">
+<meta name="description" content="Download videos fast in HD quality. Free, secure and easy video downloader tool.">
+<meta name="keywords" content="video downloader, hd video download, free downloader">
 
 <style>
 body{
@@ -22,9 +22,9 @@ body{
   max-width:600px;
   margin:auto;
   background:#111;
-  padding:20px;
-  border-radius:12px;
-  box-shadow:0 0 20px rgba(0,0,0,0.5);
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 0 25px rgba(0,0,0,0.6);
 }
 
 h1{
@@ -32,21 +32,23 @@ h1{
 }
 
 input{
-  width:80%;
+  width:85%;
   padding:12px;
   border:none;
-  border-radius:8px;
+  border-radius:10px;
   margin-top:10px;
+  font-size:16px;
 }
 
 button{
-  padding:12px 20px;
+  padding:12px 25px;
   border:none;
-  border-radius:8px;
+  border-radius:10px;
   background:#ff9800;
   color:black;
   font-weight:bold;
   cursor:pointer;
+  font-size:16px;
 }
 
 button:hover{
@@ -55,6 +57,13 @@ button:hover{
 
 .result{
   margin-top:20px;
+  font-size:18px;
+}
+
+.loader{
+  margin-top:15px;
+  font-size:14px;
+  color:#ccc;
 }
 </style>
 </head>
@@ -63,12 +72,13 @@ button:hover{
 
 <div class="container">
   <h1>🎬 Video Downloader</h1>
-  <p>Paste your video link below</p>
+  <p>Paste your video link below 👇</p>
 
   <input type="text" id="url" placeholder="Paste video URL here">
   <br><br>
   <button onclick="downloadVideo()">Download</button>
 
+  <div class="loader" id="loader"></div>
   <div class="result" id="result"></div>
 </div>
 
@@ -77,30 +87,41 @@ async function downloadVideo(){
   let url = document.getElementById("url").value;
 
   if(!url){
-    alert("Enter URL");
+    alert("Please enter video URL");
     return;
   }
 
-  document.getElementById("result").innerHTML = "Processing...";
+  document.getElementById("loader").innerHTML = "⏳ Processing... Please wait";
+  document.getElementById("result").innerHTML = "";
 
-  let res = await fetch("http://localhost:5000/download", {
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json"
-    },
-    body: JSON.stringify({url:url})
-  });
+  try{
+    let res = await fetch("https://video-downloader.onrender.com/download", {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify({url:url})
+    });
 
-  let data = await res.json();
+    let data = await res.json();
 
-  if(data.success){
+    document.getElementById("loader").innerHTML = "";
+
+    if(data.success){
+      document.getElementById("result").innerHTML =
+        `<a href="${data.download_url}" target="_blank" style="color:#4caf50; font-weight:bold;">⬇ Click here to Download</a>`;
+    } else {
+      document.getElementById("result").innerHTML =
+        `<span style="color:red;">❌ Failed to fetch video</span>`;
+    }
+
+  } catch(error){
+    document.getElementById("loader").innerHTML = "";
     document.getElementById("result").innerHTML =
-      `<a href="${data.download_url}" target="_blank">⬇ Download Video</a>`;
-  } else {
-    document.getElementById("result").innerHTML = "Failed!";
+      `<span style="color:red;">⚠️ Server Error</span>`;
   }
 }
 </script>
 
 </body>
-  </html>
+</html>
