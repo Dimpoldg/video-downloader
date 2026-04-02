@@ -3,72 +3,191 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Video Downloader</title>
+<title>All Video Downloader</title>
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
+
 body{
-  font-family:Arial;
-  background:linear-gradient(135deg,#000,#1f1c2c);
+  background:linear-gradient(135deg,#0a0a0a,#1a1a1a);
   color:white;
-  text-align:center;
+}
+
+/* HEADER */
+header{
   padding:20px;
+  text-align:center;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(10px);
 }
 
+header h1{
+  color:#00ffcc;
+}
+
+/* HERO */
+.hero{
+  padding:40px 20px;
+  text-align:center;
+}
+
+.hero h2{
+  font-size:28px;
+  margin-bottom:10px;
+}
+
+.hero p{
+  opacity:0.7;
+}
+
+/* DOWNLOAD BOX */
 .container{
+  width:90%;
   max-width:600px;
-  margin:auto;
-  background:#111;
-  padding:25px;
-  border-radius:15px;
+  margin:20px auto;
+  padding:20px;
+  background:rgba(255,255,255,0.08);
+  border-radius:20px;
+  backdrop-filter:blur(15px);
+  text-align:center;
+  box-shadow:0 0 20px rgba(0,255,204,0.1);
 }
 
-input{
-  width:85%;
+input,select{
+  width:100%;
   padding:12px;
+  margin:10px 0;
   border:none;
   border-radius:10px;
+  background:rgba(255,255,255,0.1);
+  color:white;
+  outline:none;
 }
 
 button{
-  padding:12px 20px;
+  width:100%;
+  padding:12px;
   border:none;
   border-radius:10px;
-  background:#ff9800;
+  background:linear-gradient(90deg,#00ffcc,#00aaff);
   font-weight:bold;
   cursor:pointer;
+  transition:0.3s;
 }
 
+button:hover{transform:scale(1.05);}
+
+/* FEATURES */
+.features{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:15px;
+  padding:20px;
+}
+
+.card{
+  width:150px;
+  padding:15px;
+  background:rgba(255,255,255,0.08);
+  border-radius:15px;
+  text-align:center;
+  backdrop-filter:blur(10px);
+}
+
+/* HOW TO */
+.how{
+  padding:30px;
+  text-align:center;
+}
+
+.step{
+  margin:10px 0;
+  opacity:0.8;
+}
+
+/* RESULT */
 .result{
-  margin-top:20px;
+  margin-top:15px;
+  padding:15px;
+  border-radius:10px;
+  background:rgba(255,255,255,0.1);
+  display:none;
+}
+
+/* FOOTER */
+footer{
+  margin-top:40px;
+  padding:20px;
+  text-align:center;
+  background:rgba(255,255,255,0.05);
+  opacity:0.7;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h1>🎬 Video Downloader</h1>
-  <input type="text" id="url" placeholder="Paste video URL">
-  <br><br>
-  <button onclick="download()">Download</button>
+<header>
+  <h1>All Video Downloader</h1>
+</header>
 
-  <div class="result" id="result"></div>
+<section class="hero">
+  <h2>Download Videos From Any Platform</h2>
+  <p>Fast • Free • HD Quality</p>
+</section>
+
+<!-- DOWNLOAD BOX -->
+<div class="container">
+  <input type="text" id="url" placeholder="Paste video link here">
+
+  <select id="quality">
+    <option>1080p HD</option>
+    <option>720p HD</option>
+    <option>480p</option>
+    <option>MP3 Audio</option>
+  </select>
+
+  <button onclick="start()">Download</button>
+
+  <div class="result" id="result">
+    Processing request...
+  </div>
 </div>
 
-<script>
-function download(){
-  let url = document.getElementById("url").value;
+<!-- FEATURES -->
+<div class="features">
+  <div class="card">YouTube</div>
+  <div class="card">Instagram</div>
+  <div class="card">TikTok</div>
+  <div class="card">Facebook</div>
+</div>
 
-  if(!url){
-    alert("Enter URL");
+<!-- HOW IT WORKS -->
+<div class="how">
+  <h2>How to Use</h2>
+  <div class="step">1. Copy video link</div>
+  <div class="step">2. Paste in box</div>
+  <div class="step">3. Click download</div>
+  <div class="step">4. Select quality</div>
+</div>
+
+<footer>
+  © 2026 All Video Downloader | Made by You
+</footer>
+
+<script>
+function start(){
+  let url = document.getElementById("url").value;
+  let result = document.getElementById("result");
+
+  if(url===""){
+    alert("Paste link first!");
     return;
   }
 
-  // Direct redirect to working downloader site
-  let finalUrl = "https://en.savefrom.net/1-youtube-video-downloader/?url=" + encodeURIComponent(url);
-
-  window.open(finalUrl, "_blank");
+  result.style.display="block";
+  result.innerHTML="⏳ Processing... (Backend API needed for real download)";
 }
 </script>
 
